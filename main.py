@@ -21,7 +21,7 @@ class BaseHandler(tornado.web.RequestHandler):
     in the secure cookie.
     """
     def get_current_user(self):
-        user = self.get_secure_cookie('user_id')
+        user = self.get_secure_cookie('user')
         if user:
             return json_decode(user)
         else:
@@ -43,7 +43,7 @@ class SignInHandler(BaseHandler, tornado.auth.TwitterMixin):
     def get(self):
         if self.get_argument("oauth_token", None):
             user = yield self.get_authenticated_user()
-            self.set_secure_cookie('user_id', json_encode(
+            self.set_secure_cookie('user', json_encode(
                 {
                     'screen_name': user['screen_name'], 
                     'id': user['id'],
@@ -57,7 +57,7 @@ class SignInHandler(BaseHandler, tornado.auth.TwitterMixin):
 
 class SignOutHandler(BaseHandler):
     def get(self):
-        self.clear_cookie("user_id")
+        self.clear_cookie("user")
         return self.redirect("/")
 
 
