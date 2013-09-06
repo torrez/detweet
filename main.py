@@ -65,7 +65,7 @@ class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
             self.write("DETWEETED<br>")
 
 
-        self.finish("I hope you’re happy!")
+        self.finish("We’re Done!")
         #loop through them
 
 
@@ -79,6 +79,7 @@ twitter_consumer_secret="DTs6nOJ2KxfaLcYwwQDZdZK47IC5gXY0Qs45O54Zuk",
 cookie_secret="0E92HPEHRP64WZfWh6liJ3Xi16CYnEsTtvQqY9OH4IY=")
 
 if __name__ == "__main__":
+    tornado.options.parse_command_line()
     application.listen(int(options.on_port))
     tornado.ioloop.IOLoop.instance().start()
 
