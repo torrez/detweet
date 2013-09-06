@@ -12,17 +12,17 @@ from tornado.options import define, options
 define('on_port', default=8000, help="Run on port")
 
 class BaseHandler(tornado.web.RequestHandler):
-	def get_current_user(self):
-		user = self.get_secure_cookie('user_id')
-		if user:
-			return json_decode(user)
-		else:
-			return None
+    def get_current_user(self):
+        user = self.get_secure_cookie('user_id')
+        if user:
+            return json_decode(user)
+        else:
+            return None
 
 class MainHandler(BaseHandler):
     def get(self):
-    	user = self.get_current_user()
-    	if user:
+        user = self.get_current_user()
+        if user:
             self.write("<a href=\"/bye-bye\">disable retweets for everyone</a><br>")
             self.write("<a href=\"/sign-out\">sign out</a>")
         else:
@@ -41,8 +41,8 @@ class SignInHandler(BaseHandler, tornado.auth.TwitterMixin):
             yield self.authorize_redirect()
 
 class SignOutHandler(tornado.web.RequestHandler):
-	def get(self):
-		self.set_secure_cookie('user_id', None)
+    def get(self):
+        self.set_secure_cookie('user_id', None)
         return self.redirect("/")
 
 class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
