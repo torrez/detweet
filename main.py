@@ -75,8 +75,8 @@ class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
             "/friends/ids",
             count=3000,
             access_token=self.current_user["access_token"])
-        for id in friend_ids['ids']:
-            self.write("User #{0}…".format(id))
+        for f_id in friend_ids['ids']:
+            self.write("User #{0}…".format(f_id))
             self.flush()
             yield tornado.gen.Task(
                 tornado.ioloop.IOLoop.instance().add_timeout, time.time() + .1
@@ -84,7 +84,7 @@ class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
             try:
                 friend = yield self.twitter_request(
                     "/friendships/update",
-                    post_args={"user_id": id, "retweets": "false"},
+                    post_args={"user_id": f_id, "retweets": "false"},
                     access_token=self.current_user["access_token"])
                 self.write("DETWEETED!<br>")
             except:
