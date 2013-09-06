@@ -11,8 +11,8 @@ and cookie_secret. (read [this gist](https://gist.github.com/didip/823887) to
 learn how to create a cookie_secret)
 
 Anyway, it doesn’t work. For some reason Twitter’s API says the user’s ability
-to retweet is turned off, but it doesn’t actually do it. <strike>I do not know 
-why and can’t spend time figuring it out.</strike> I am told it actually does 
+to retweet is turned off, but it doesn’t actually do it. <s>I do not know 
+why and can’t spend time figuring it out.</s> I am told it actually does 
 work, it just takes some time. Feel free to take this code and deploy it 
 yourself.
 
