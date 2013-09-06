@@ -23,7 +23,8 @@ class MainHandler(BaseHandler):
     def get(self):
     	user = self.get_current_user()
     	if user:
-    		self.write("<a href=\"/bye-bye\">disable retweets for everyone</a>")
+    		self.write("<a href=\"/bye-bye\">disable retweets for everyone</a><br>")
+            self.write("<a href=\"/sign-out\">sign out</a>")
         else:
             self.write("<a href=\"/sign-in\">sign in</a>")
 
