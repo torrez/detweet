@@ -7,6 +7,9 @@ import tornado.ioloop
 import tornado.web
 import tornado.auth
 from tornado.escape import json_encode, json_decode
+from tornado.options import define, options
+
+define('on_port', default=8000, help="Run on port")
 
 class BaseHandler(tornado.web.RequestHandler):
 	def get_current_user(self):
@@ -77,7 +80,7 @@ cookie_secret="0E92HPEHRP64WZfWh6liJ3Xi16CYnEsTtvQqY9OH4IY=",
 debug=True)
 
 if __name__ == "__main__":
-    application.listen(8000)
+    application.listen(int(options.on_port))
     tornado.ioloop.IOLoop.instance().start()
 
 
