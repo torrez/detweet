@@ -76,8 +76,7 @@ application = tornado.web.Application([
     (r"/bye-bye", ByeByeHandler),
 ], twitter_consumer_key="r9qhchd2GfIvENhaEbnBw", 
 twitter_consumer_secret="DTs6nOJ2KxfaLcYwwQDZdZK47IC5gXY0Qs45O54Zuk",
-cookie_secret="0E92HPEHRP64WZfWh6liJ3Xi16CYnEsTtvQqY9OH4IY=",
-debug=True)
+cookie_secret="0E92HPEHRP64WZfWh6liJ3Xi16CYnEsTtvQqY9OH4IY=")
 
 if __name__ == "__main__":
     application.listen(int(options.on_port))
