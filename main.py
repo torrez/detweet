@@ -41,7 +41,8 @@ class SignInHandler(BaseHandler, tornado.auth.TwitterMixin):
 
 class SignOutHandler(tornado.web.RequestHandler):
 	def get(self):
-		pass
+		self.set_secure_cookie('user_id', None)
+        return self.redirect("/")
 
 class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
     @tornado.web.authenticated
