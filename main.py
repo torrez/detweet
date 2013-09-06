@@ -15,6 +15,7 @@ define('twitter_consumer_secret', default=os.environ['twitter_consumer_secret'])
 #see this gist for a Tornado cookie secret: https://gist.github.com/didip/823887
 define('cookie_secret', default=os.environ['cookie_secret'])
 
+
 class BaseHandler(tornado.web.RequestHandler):
     """
     Gives every handler the ability to decrypt the Twitter user saved
@@ -26,6 +27,7 @@ class BaseHandler(tornado.web.RequestHandler):
             return json_decode(user)
         else:
             return None
+
 
 class MainHandler(BaseHandler):
     def get(self):
@@ -66,15 +68,19 @@ class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
     @tornado.gen.coroutine
     def get(self):
-        #get everyone i follow
+        # get IDs of everyone you follow
+        # if you follow more than 3,000 people 
+        # something is wrong with you
         friend_ids = yield self.twitter_request(
             "/friends/ids",
-            count=5000,
+            count=3000,
             access_token=self.current_user["access_token"])
         for id in friend_ids['ids']:
             self.write("User #{0}…".format(id))
             self.flush()
-            yield tornado.gen.Task(tornado.ioloop.IOLoop.instance().add_timeout, time.time() + .1)
+            yield tornado.gen.Task(
+                tornado.ioloop.IOLoop.instance().add_timeout, time.time() + .1
+            )
             try:
                 friend = yield self.twitter_request(
                     "/friendships/update",
@@ -85,6 +91,7 @@ class ByeByeHandler(BaseHandler, tornado.auth.TwitterMixin):
                 self.write("DIDN’T WORK!<br>")
         self.finish("We’re Done!")
 
+#application setup
 application = tornado.web.Application([
     (r"/", MainHandler),
     (r"/sign-in", SignInHandler),
