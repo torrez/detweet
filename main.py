@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import time
 import os 
+import time
 
 import tornado.ioloop
 import tornado.web
@@ -10,7 +9,7 @@ import tornado.auth
 from tornado.escape import json_encode, json_decode
 from tornado.options import define, options
 
-define('on_port', default=8000, help="Run on port")
+define('on_port', default=5000, help="Run on port")
 define('twitter_consumer_key', default=os.environ['twitter_consumer_key'])
 define('twitter_consumer_secret', default=os.environ['twitter_consumer_secret'])
 #see this gist for a Tornado cookie secret: https://gist.github.com/didip/823887
@@ -44,13 +43,19 @@ class SignInHandler(BaseHandler, tornado.auth.TwitterMixin):
     def get(self):
         if self.get_argument("oauth_token", None):
             user = yield self.get_authenticated_user()
-            self.set_secure_cookie('user_id', json_encode(user))
+            self.set_secure_cookie('user_id', json_encode(
+                {
+                    'screen_name': user['screen_name'], 
+                    'id': user['id'],
+                    'access_token': user['access_token']
+                })
+            )
             self.redirect("/")
         else:
             yield self.authorize_redirect()
 
 
-class SignOutHandler(tornado.web.RequestHandler):
+class SignOutHandler(BaseHandler):
     def get(self):
         self.clear_cookie("user_id")
         return self.redirect("/")
