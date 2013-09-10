@@ -37,6 +37,8 @@ class MainHandler(BaseHandler):
             self.write("<a href=\"/sign-out\">sign out</a>")
         else:
             self.write("<a href=\"/sign-in\">sign in</a>")
+        self.write("<br><br>")
+        self.write("<a href=\"http://github.com/torrez/detweet\">source code</a>")
 
 
 class SignInHandler(BaseHandler, tornado.auth.TwitterMixin):
